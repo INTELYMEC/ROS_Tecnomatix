@@ -1,5 +1,5 @@
 # ROS_Tecnomatix
-This repository contains the scripts for integrating ROS(Robot Operating System) and Tecnomatix Plant Simulation. Also, there is a model example in the .ssp file.
+This repository contains the scripts for integrating ROS (Robot Operating System) and Tecnomatix Plant Simulation from Siemens. Also, there is a model example in the .ssp file.
 ## Requeriments
 - OS Windows
 - Tecnomatix Plant Simulation version 15.1
