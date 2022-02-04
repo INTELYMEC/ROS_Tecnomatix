@@ -16,18 +16,15 @@ class RL_Method_1(Autonomous_Decision_System):
     def __init__(self):
         Autonomous_Decision_System.__init__(self)
 
-        self.alfa = 0.10
-        self.gamma = 0.90
+        self.alfa = 0.9
+        self.gamma = 0.5
         self.epsilon_inicial = 1
-        self.epsilon_minimo = 0.2
-        self.lim_episodios = 199
-        self.epsilon_decay = (
-            self.epsilon_inicial - self.epsilon_minimo) / self.lim_episodios
+        self.epsilon_minimo = 0.1
+        self.lim_episodios = 229
+        self.epsilon_decay = 0.99
 
-        # numero de episodios
+        # numero de episodios y pasos
         self.ep_maximo = 500
-
-        # numero de pasos
         self.t_maximo = 100
 
         # inicializar recompensa por episodio
@@ -57,8 +54,9 @@ class RL_Method_1(Autonomous_Decision_System):
             i = np.random.choice(2)
         return (i)
 
-    # funcion rl- actualizar estados y matriz Q
+    # funcion RL- actualizar estados y matriz Q
     def process(self):
+        writer = SummaryWriter()
         global epsilon
         epsilon = self.epsilon_inicial
         for n in range(self.ep_maximo):
@@ -96,11 +94,12 @@ class RL_Method_1(Autonomous_Decision_System):
                 t += 1
                 S0 = Snew
                 r_acum = r_acum + r
+                r_tot = r_tot + res1
             self.r_episodio[n] = r_acum
             if n >= self.lim_episodios:
                 self.epsilon = self.epsilon_minimo
             else:
-                self.epsilon = self.epsilon_inicial - ((n+1)*self.epsilon_decay)
+                self.epsilon = self.epsilon * self.epsilon_decay
                 writer.add_scalar('Recompensa acumulada por episodio',
                                   r_acum, n)
                 writer.add_scalar('Recompensa media', r_acum / self.t_maximo,
@@ -109,6 +108,3 @@ class RL_Method_1(Autonomous_Decision_System):
                 writer.add_scalar('Resultado total a minimizar', r_tot, n)
                 writer.add_scalar('Resultado medio a minimizar',
                                   r_tot / self.t_maximo, n)
-
-
-writer = SummaryWriter()

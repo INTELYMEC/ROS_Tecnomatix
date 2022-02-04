@@ -55,7 +55,7 @@ class Material_Handling(Plant):
         resultado_str = "YES"
         rospy.loginfo(resultado_str)
         self.pub.publish(resultado_str)
-        return r, d, e, f
+        return r
 
     def process_simulation(self):
         if (self.connection()):
